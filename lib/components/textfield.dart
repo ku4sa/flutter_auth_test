@@ -1,39 +1,32 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class MyCustomTextField extends StatefulWidget {
-  final Color? filledColor;
-  final bool isSearch;
+  final bool isPassword;
   final bool obscureText;
   final TextEditingController controller;
   final String? labelText;
   final String? initialValue;
-  final String hInt;
   final String? icon;
   final IconData suffixIcon;
   final String? hintText;
   final IconData? prefixIcon;
-  final IconData? secondSuffixIcon;
+
   final void Function(String?)? onTapSuffixIcon;
   final void Function(String) onChanged;
   final String? Function(String?)? validator;
 
   const MyCustomTextField({
+    this.isPassword = false,
     super.key,
     this.icon,
     required this.controller,
     this.labelText,
     this.hintText,
     this.prefixIcon,
-    this.isSearch = false,
     this.obscureText = false,
-    this.secondSuffixIcon,
     this.initialValue,
-    required this.hInt,
     this.onTapSuffixIcon,
     required this.onChanged,
-    this.filledColor,
     this.validator,
     required this.suffixIcon,
   });
@@ -43,25 +36,7 @@ class MyCustomTextField extends StatefulWidget {
 }
 
 class _MyCustomTextFieldState extends State<MyCustomTextField> {
-  String value = "";
-  String? error;
   late bool obscureText;
-  Timer? _timer;
-  String? showError;
-
-  void validate() {
-    if (widget.validator != null) {
-      setState(() {
-        error = widget.validator!(widget.controller.text);
-      });
-    }
-  }
-
-  void changeValue(String v) {
-    validate();
-    widget.onChanged(widget.controller.text);
-    _timer?.cancel();
-  }
 
   @override
   void initState() {
@@ -70,46 +45,49 @@ class _MyCustomTextFieldState extends State<MyCustomTextField> {
   }
 
   @override
-  void dispose() {
-    _timer?.cancel();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextField(
       controller: widget.controller,
       style: const TextStyle(color: Colors.white),
       obscureText: obscureText,
       onChanged: (value) {
-        changeValue(value);
+        widget.onChanged(value);
       },
       decoration: InputDecoration(
-        focusedBorder: border(
-          width: 2,
-        ),
-        errorBorder: border(
-          color: Colors.limeAccent,
-        ),
-        enabledBorder: border(),
-        fillColor: widget.filledColor,
-        filled: widget.filledColor != null,
-        errorText: error,
-        errorMaxLines: 3,
-        helperMaxLines: 3,
-        hintText: widget.hintText,
-        labelText: widget.labelText,
-        prefixIcon: Icon(
-          widget.prefixIcon,
-          color: Colors.white,
-        ),
-        suffixIcon: Icon(widget.suffixIcon),
-      ),
+          focusedBorder: _border(
+            width: 2,
+          ),
+          errorBorder: _border(
+            color: Colors.limeAccent,
+          ),
+          enabledBorder: _border(),
+          hintText: widget.hintText,
+          labelText: widget.labelText,
+          labelStyle: const TextStyle(
+            color: Colors.white,
+          ),
+          prefixIcon: Icon(
+            widget.prefixIcon,
+            color: Colors.white,
+          ),
+          suffixIcon: IconButton(
+              onPressed: () {
+                setState(() {
+                  if (widget.isPassword) {
+                    obscureText = !obscureText;
+                  } else {
+                    widget.controller.clear();
+                  }
+                });
+              },
+              icon: Icon(
+                widget.suffixIcon,
+                color: Colors.white,
+              ))),
     );
   }
 
-  UnderlineInputBorder border({
+  UnderlineInputBorder _border({
     double width = 1,
     Color color = Colors.white,
   }) {

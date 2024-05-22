@@ -14,12 +14,18 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+User _$UserFromJson(Map<String, dynamic> json) {
+  return _User.fromJson(json);
+}
+
 /// @nodoc
 mixin _$User {
+  @HiveField(0)
   String get username => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  String? get password => throw _privateConstructorUsedError;
+  @HiveField(1)
+  String get password => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
 }
@@ -29,7 +35,7 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({String username, String? name, String? password});
+  $Res call({@HiveField(0) String username, @HiveField(1) String password});
 }
 
 /// @nodoc
@@ -46,22 +52,17 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   @override
   $Res call({
     Object? username = null,
-    Object? name = freezed,
-    Object? password = freezed,
+    Object? password = null,
   }) {
     return _then(_value.copyWith(
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      password: freezed == password
+      password: null == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -73,7 +74,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String username, String? name, String? password});
+  $Res call({@HiveField(0) String username, @HiveField(1) String password});
 }
 
 /// @nodoc
@@ -87,41 +88,42 @@ class __$$UserImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? username = null,
-    Object? name = freezed,
-    Object? password = freezed,
+    Object? password = null,
   }) {
     return _then(_$UserImpl(
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      password: freezed == password
+      password: null == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$UserImpl extends _User {
+  _$UserImpl(
+      {@HiveField(0) required this.username,
+      @HiveField(1) required this.password})
+      : super._();
 
-class _$UserImpl implements _User {
-  _$UserImpl({required this.username, this.name, this.password});
+  factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserImplFromJson(json);
 
   @override
+  @HiveField(0)
   final String username;
   @override
-  final String? name;
-  @override
-  final String? password;
+  @HiveField(1)
+  final String password;
 
   @override
   String toString() {
-    return 'User(username: $username, name: $name, password: $password)';
+    return 'User(username: $username, password: $password)';
   }
 
   @override
@@ -131,33 +133,42 @@ class _$UserImpl implements _User {
             other is _$UserImpl &&
             (identical(other.username, username) ||
                 other.username == username) &&
-            (identical(other.name, name) || other.name == name) &&
             (identical(other.password, password) ||
                 other.password == password));
   }
 
+  @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, username, name, password);
+  int get hashCode => Object.hash(runtimeType, username, password);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>
       __$$UserImplCopyWithImpl<_$UserImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserImplToJson(
+      this,
+    );
+  }
 }
 
-abstract class _User implements User {
+abstract class _User extends User {
   factory _User(
-      {required final String username,
-      final String? name,
-      final String? password}) = _$UserImpl;
+      {@HiveField(0) required final String username,
+      @HiveField(1) required final String password}) = _$UserImpl;
+  _User._() : super._();
+
+  factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
+  @HiveField(0)
   String get username;
   @override
-  String? get name;
-  @override
-  String? get password;
+  @HiveField(1)
+  String get password;
   @override
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>

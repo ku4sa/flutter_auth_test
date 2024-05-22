@@ -19,8 +19,26 @@ class SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(),
+    return const Material(
+      color: Colors.white,
+      child: Center(
+        child: SizedBox(
+          width: 200,
+          height: 100,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Text('Идет загрузка...'),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

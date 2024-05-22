@@ -14,6 +14,9 @@ final class PasswordChanged extends LoginPageEvent {
   PasswordChanged({required this.password});
 }
 
-final class ChangePasswordVisibility extends LoginPageEvent {}
-
 final class Submit extends LoginPageEvent {}
+
+final class ChangeNeedToRemember extends LoginPageEvent {
+  final bool value;
+  ChangeNeedToRemember({required this.value});
+}
